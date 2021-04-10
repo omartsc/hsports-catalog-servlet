@@ -1,4 +1,4 @@
-package com.company;
+package com.linkedin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -26,8 +26,7 @@ public class CatalogServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Testing from: ").append(request.getContextPath());
+		response.getWriter().append(request.getParameter("name"));
 	}
 
 	/**
