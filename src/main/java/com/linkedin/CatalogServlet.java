@@ -1,11 +1,17 @@
 package com.linkedin;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.linkedin.servlet.Catalog;
+import com.linkedin.servlet.CatalogItem;
 
 /**
  * Servlet implementation class CatalogServlet
@@ -33,8 +39,33 @@ public class CatalogServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String name = request.getParameter("name");
+		String manufacturer = request.getParameter("manufacturer");
+		String sku = request.getParameter("sku");
+		
+		Catalog.addItem(new CatalogItem(name, manufacturer, sku));
+		
+		response.setHeader("someHeader", "someHeaderValue");
+		response.addCookie(new Cookie("someCookie", "someCookieValue"));
+		
+		PrintWriter out = response.getWriter();
+		
+		out.println("<html>");
+		out.println("<head></head>");
+		out.println("<body>");
+		out.println("<table>");
+		
+		for(CatalogItem item: Catalog.getItems()) {
+			out.println("<tr>");
+			out.println("<td>");
+			out.println(item.getName());
+			out.println("</td>");
+			out.println("</tr>");
+		}
+		
+		out.println("</table>");
+		out.println("</body>");
+		out.println("</html>");
 	}
 
 }
